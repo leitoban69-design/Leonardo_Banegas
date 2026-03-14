@@ -144,7 +144,7 @@ nuevo_semestre = st.number_input("Nuevo semestre", min_value=1)
 
 
 if st.button("Actualizar estudiante"):
-    actualizar_estudiante(id_update, nuevo_nombre, nuevo_apellido, nueva_cedula, nueva_carrera, nuevo
+    actualizar_estudiante(id_update, nuevo_nombre, nuevo_apellido, nueva_cedula, nueva_carrera, nuevo_semestre)
     st.success(f"Estudiante con ID {id_update} actualizado correctamente")
 
 
