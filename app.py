@@ -142,10 +142,10 @@ nueva_cedula = st.text_input("Nueva cédula")
 nueva_carrera = st.text_input("Nueva carrera")
 nuevo_semestre = st.number_input("Nuevo semestre", min_value=1)
 
-
 if st.button("Actualizar estudiante"):
     actualizar_estudiante(id_update, nuevo_nombre, nuevo_apellido, nueva_cedula, nueva_carrera, nuevo_semestre)
     st.success(f"Estudiante con ID {id_update} actualizado correctamente")
+    st.rerun()
 
 
 # --- Eliminar estudiante ---
@@ -155,5 +155,4 @@ id_delete = st.number_input("ID del estudiante a eliminar", min_value=1)
 if st.button("Eliminar estudiante"):
     eliminar_estudiante(id_delete)
     st.warning(f"Estudiante con ID {id_delete} eliminado correctamente")
-    # Esto obliga a Streamlit a volver a cargar la lista y la tabla
     st.rerun()
