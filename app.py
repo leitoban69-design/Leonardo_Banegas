@@ -152,7 +152,8 @@ if st.button("Actualizar estudiante"):
 st.write("### Eliminar estudiante")
 id_delete = st.number_input("ID del estudiante a eliminar", min_value=1)
 
-
 if st.button("Eliminar estudiante"):
     eliminar_estudiante(id_delete)
     st.warning(f"Estudiante con ID {id_delete} eliminado correctamente")
+    # Esto obliga a Streamlit a volver a cargar la lista y la tabla
+    st.rerun()
