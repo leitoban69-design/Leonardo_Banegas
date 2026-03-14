@@ -100,19 +100,31 @@ st.header("Leonardo Plutarco Banegas López")
 st.subheader("Carrera: Big Data e Inteligencia de Negocios")
 
 
+# --- Dentro de la Interfaz Streamlit ---
+
 # --- Crear estudiante ---
 st.write("### Ingresar nuevo estudiante")
-nombre = st.text_input("Nombre")
-apellido = st.text_input("Apellido")
-cedula = st.text_input("Cédula")
-carrera = st.text_input("Carrera")
-semestre = st.number_input("Semestre", min_value=1)
-
+# Agregamos 'key' para poder resetearlos después
+nombre = st.text_input("Nombre", key="n_nombre")
+apellido = st.text_input("Apellido", key="n_apellido")
+cedula = st.text_input("Cédula", key="n_cedula")
+carrera = st.text_input("Carrera", key="n_carrera")
+semestre = st.number_input("Semestre", min_value=1, key="n_semestre")
 
 if st.button("Guardar estudiante"):
+    # Llamada a la función CRUD
     crear_estudiante(nombre, apellido, cedula, carrera, semestre)
     st.success(f"Estudiante {nombre} {apellido} guardado correctamente")
-
+    
+    # Lógica de limpieza: ponemos los campos en blanco en el estado de la sesión
+    st.session_state.n_nombre = ""
+    st.session_state.n_apellido = ""
+    st.session_state.n_cedula = ""
+    st.session_state.n_carrera = ""
+    st.session_state.n_semestre = 1
+    
+    # Refrescamos la página para que se vean los cambios y los campos limpios
+    st.rerun()
 
 # --- Mostrar estudiantes ---
 st.write("### Lista de estudiantes registrados")
@@ -125,34 +137,37 @@ df = pd.DataFrame(estudiantes, columns=["ID", "Nombre", "Apellido", "Cédula", "
 st.write("### Tabla de estudiantes con pandas")
 st.dataframe(df)
 
-
-# --- Gráfico con matplotlib ---
-st.write("### Distribución por semestre")
-fig, ax = plt.subplots()
-df["Semestre"].value_counts().sort_index().plot(kind="bar", ax=ax)
-st.pyplot(fig)
-
-
-# --- Actualizar estudiante ---
-st.write("### Actualizar estudiante")
-id_update = st.number_input("ID del estudiante a actualizar", min_value=1)
-nuevo_nombre = st.text_input("Nuevo nombre")
-nuevo_apellido = st.text_input("Nuevo apellido")
-nueva_cedula = st.text_input("Nueva cédula")
-nueva_carrera = st.text_input("Nueva carrera")
-nuevo_semestre = st.number_input("Nuevo semestre", min_value=1)
-
 if st.button("Actualizar estudiante"):
     actualizar_estudiante(id_update, nuevo_nombre, nuevo_apellido, nueva_cedula, nueva_carrera, nuevo_semestre)
     st.success(f"Estudiante con ID {id_update} actualizado correctamente")
+    
+    # Limpiamos los campos de actualización
+    for k in ["nuevo_nombre", "nuevo_apellido", "nueva_cedula", "nueva_carrera"]:
+        st.session_state[k] = ""
+    
     st.rerun()
 
 
 # --- Eliminar estudiante ---
 st.write("### Eliminar estudiante")
-id_delete = st.number_input("ID del estudiante a eliminar", min_value=1)
+# Agregamos una 'key' para poder limpiar el campo después
+id_delete = st.number_input("ID del estudiante a eliminar", min_value=1, key="input_eliminar")
 
 if st.button("Eliminar estudiante"):
+    # Ejecuta la función CRUD
     eliminar_estudiante(id_delete)
-    st.warning(f"Estudiante con ID {id_delete} eliminado correctamente")
-    st.rerun()
+    
+ # Mensaje de confirmación
+ st.warning(f"Estudiante con ID {id_delete} eliminado correctamente")
+    
+ # Limpiamos el campo del ID poniendo el valor mínimo (1)
+ st.session_state.input_eliminar = 1
+    
+ # Forzamos el refresco para que desaparezca de la tabla de arriba
+ st.rerun()
+
+ # --- Gráfico con matplotlib ---
+ st.write("### Distribución por semestre")
+ fig, ax = plt.subplots()
+ df["Semestre"].value_counts().sort_index().plot(kind="bar", ax=ax)
+ st.pyplot(fig)
