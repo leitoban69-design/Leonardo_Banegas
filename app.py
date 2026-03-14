@@ -154,17 +154,17 @@ st.write("### Eliminar estudiante")
 id_delete = st.number_input("ID del estudiante a eliminar", min_value=1, key="input_eliminar")
 
 if st.button("Eliminar estudiante"):
-    # Ejecuta la función CRUD
+    # Ejecuta la función CRUD (4 espacios)
     eliminar_estudiante(id_delete)
     
- # Mensaje de confirmación
- st.warning(f"Estudiante con ID {id_delete} eliminado correctamente")
+    # Mensaje de confirmación (4 espacios)
+    st.warning(f"Estudiante con ID {id_delete} eliminado correctamente")
     
- # Limpiamos el campo del ID poniendo el valor mínimo (1)
- st.session_state.input_eliminar = 1
+    # Limpiamos el campo (4 espacios)
+    st.session_state.input_eliminar = 1
     
- # Forzamos el refresco para que desaparezca de la tabla de arriba
- st.rerun()
+    # Forzamos el refresco (4 espacios)
+    st.rerun()
 
  # --- Gráfico con matplotlib ---
  st.write("### Distribución por semestre")
