@@ -166,8 +166,10 @@ if st.button("Eliminar estudiante"):
     # Forzamos el refresco (4 espacios)
     st.rerun()
 
- # --- Gráfico con matplotlib ---
- st.write("### Distribución por semestre")
- fig, ax = plt.subplots()
- df["Semestre"].value_counts().sort_index().plot(kind="bar", ax=ax)
- st.pyplot(fig)
+# --- Gráfico con matplotlib al final ---
+st.write("---")
+st.write("### Distribución por semestre") # Esta es la línea 170, debe tener CERO espacios al inicio
+if not df.empty:
+    fig, ax = plt.subplots()
+    df["Semestre"].value_counts().sort_index().plot(kind="bar", color="skyblue", ax=ax)
+    st.pyplot(fig)
